@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser'
 import mongoose from 'mongoose'
 import authRouter from './routes/auth.js'
 import userRouter from './routes/users.js'
+import movieRouter from './routes/movies.js'
+import listRouter from './routes/lists.js'
 
 const app = express()
 app.use(cors())
@@ -23,6 +25,8 @@ mongoose.connect(process.env.MONGODB_URL,{
 
   app.use('/api/auth', authRouter)
   app.use('/api/users', userRouter)
+  app.use('/api/movies', movieRouter)
+  app.use('/api/lists', listRouter)
 
   app.listen(port, () => {
     console.log(`server start on port: ${port}`);
