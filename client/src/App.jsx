@@ -8,6 +8,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import Watch from "./pages/watch/Watch.jsx";
 const App = () => {
   const user = true
   return (
@@ -21,6 +22,21 @@ const App = () => {
         </Route>
         <Route path="/login">{!user ? <Login /> : <Redirect to="/" />}</Route>
       </Switch>
+      {
+        user && (
+          <Switch>
+            <Route path="/movies">
+              <Home type="movie"/>
+            </Route>
+            <Route path="/series">
+              <Home type="serie"/>
+            </Route>
+            <Route path="/watch">
+              <Watch />
+            </Route>
+          </Switch>
+        )
+      }
     </Router>
   );
 };

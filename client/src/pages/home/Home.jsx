@@ -4,11 +4,11 @@ import Navbar from "../../components/navbar/Navbar.jsx";
 import List from "../../components/list/List.jsx";
 import Featured from "../../components/featured/Featured.jsx"
 
-const Home = () => {
+const Home = ({type}) => {
   return (
     <div className="home">
       <Navbar />
-      <Featured />
+      <Featured type={type}/>
       <List/>
       <List/>
       <List/>
