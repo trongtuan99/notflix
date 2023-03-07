@@ -29,7 +29,7 @@ const App = () => {
               <Home type="movie"/>
             </Route>
             <Route path="/series">
-              <Home type="serie"/>
+              <Home type="series"/>
             </Route>
             <Route path="/watch">
               <Watch />
