@@ -1,26 +1,44 @@
 import { useRef, useState} from "react";
 import Logo from "../../components/common/Logo";
 import "./register.scss";
+import { useHistory } from 'react-router-dom'
+import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
+  const history = useHistory()
 
   const emailRef = useRef();
-  const passwordRef = useRef();
 
   const handleStart = () => {
-    setEmail(emailRef.current.value);
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailRef.current.value)){
+      setEmail(emailRef.current.value);
+      return;
+    }else{
+      alert("Hãy nhập đúng địa chỉ email!")
+      return;
+    }
   };
-  const handleFinish = () => {
-    setPassword(passwordRef.current.value);
+  const handleFinish = async (e) => {
+    e.preventDefault()
+    try{
+      await axios.post("/auth/register", {email, password, userName})
+      history.push("/login")
+    }catch(err){
+      console.log(err);
+    }
   };
   return (
     <div className="register">
       <div className="top">
         <div className="wrapper">
           <Logo />
-          <button className="loginButton">Đăng nhập</button>
+          <Link to="/login" >
+            <button className="loginButton">Đăng nhập</button>
+          </Link>
         </div>
       </div>
       <div className="container">
@@ -31,16 +49,17 @@ const Register = () => {
         </p>
         {!email ? (
           <div className="input">
-            <input type="email" placeholder="Email" ref={emailRef} />
+            <input type="email" required placeholder="Email" ref={emailRef}/>
             <button className="registerButton" onClick={handleStart}>
               Bắt đầu
             </button>
           </div>
         ) : (
           <form className="input">
-            <input type="password" placeholder="Mật khẩu" ref={passwordRef} />
+            <input type="text" placeholder="Họ tên" onChange={e => setUserName(e.target.value)}/>
+            <input type="password" placeholder="Mật khẩu" onChange={e => setPassword(e.target.value)}/>
             <button className="registerButton" onClick={handleFinish}>
-              Bắt đầu
+              Đăng Ký
             </button>
           </form>
         )}
