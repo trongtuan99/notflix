@@ -9,13 +9,16 @@ import {
   Redirect,
 } from "react-router-dom";
 import Watch from "./pages/watch/Watch.jsx";
+import { useContext } from 'react'
+import { AuthContext } from './authContext/AuthContext.jsx'
+
 const App = () => {
-  const user = true
+  const { user } = useContext(AuthContext)
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          {user ? <Home /> : <Redirect to="/register" />}
+          {user ? <Home /> : <Redirect to="/login" />}
         </Route>
         <Route path="/register">
           {!user ? <Register /> : <Redirect to="/" />}
