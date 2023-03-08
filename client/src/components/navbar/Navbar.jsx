@@ -1,16 +1,22 @@
 import { ArrowDropDown, Notifications, Search } from "@material-ui/icons";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "./navbar.scss";
 import Logo from "../common/Logo";
 import { Link } from 'react-router-dom'
+import { AuthContext } from '../../authContext/AuthContext.jsx'
+import { logout } from '../../authContext/AuthAction.jsx'
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-
+  const { dispatch, user } = useContext(AuthContext)
+  console.log(user);
   window.onscroll = () => {
     setIsScrolled(window.pageYOffset === 0 ? false : true);
     return () => (window.onscroll = null);
   };
+  const handleLogout = () => {
+    dispatch(logout())
+  }
   return (
     <div className={isScrolled ? "navbar scrolled" : "navbar"}>
       <div className="container">
@@ -35,14 +41,18 @@ const Navbar = () => {
           <span>KID</span>
           <Notifications className="icon" />
           <img
-            src="https://t4.ftcdn.net/jpg/05/11/55/91/360_F_511559113_UTxNAE1EP40z1qZ8hIzGNrB0LwqwjruK.jpg"
-            alt=""
+            src={user.profilePic || "https://i.pinimg.com/736x/cc/16/0c/cc160c19dbd165c43046c176223f10fe.jpg"}
+            alt="avatar"
           />
           <div className="profile">
             <ArrowDropDown className="icon" />
             <div className="options">
-              <span>Cài đặt</span>
-              <span>Đăng xuất</span>
+              <span>
+                {user.userName}
+              </span>
+              <span onClick={handleLogout}>
+                Đăng xuất
+              </span>
             </div>
           </div>
         </div>
